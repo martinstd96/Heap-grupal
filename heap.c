@@ -29,9 +29,9 @@ heap_t* heap_crear(cmp_func_t cmp){
 }
 
 void swap(void* x,void* y){
-  void* auxiliar=*x;
-  *x=*y;
-  *y=auxiliar;
+  void* auxiliar=x;
+  x=y;
+  y=auxiliar;
 }
 
 bool redimensionar_heap(heap_t* heap,size_t tamanio_nuevo){
@@ -56,7 +56,7 @@ bool heap_encolar(heap_t* heap,void* elem){
     bool esta_redimensionado_heap=redimensionar_heap(heap,tamanio_nuevo);
     if (!esta_redimensionado_heap) return false;
   }
-  heap->datos[cantidad]=elem;
+  heap->datos[heap->cantidad]=elem;
   upheap(heap->datos,heap->cantidad,heap->cmp);
   heap->cantidad++;
   return true;
@@ -71,8 +71,15 @@ void downheap(void** arreglo,size_t cantidad,size_t posicion_padre,cmp_func_t cm
   size_t posicion_hijo_izquierdo=(2*posicion_padre)+1;
   size_t posicion_hijo_derecho=(2*posicion_padre)+2;
   size_t posicion_maximo=posicion_padre;
-  if (posicion_hijo_izquierdo<cantidad && comparar(arreglo,cmp,posicion_padre,posicion_hijo_izquierdo)<0 && comparar(arreglo,cmp,posicion_hijo_izquierdo,posicion_hijo_derecho)>0) posicion_maximo=posicion_hijo_izquierdo;
-  if (posicion_hijo_derecho<cantidad && comparar(arreglo,cmp,posicion_padre,posicion_hijo_derecho)<0 && comparar(arreglo,cmp,posicion_hijo_derecho,posicion_hijo_izquierdo)>0) posicion_maximo=posicion_hijo_derecho;
+  if (posicion_hijo_derecho>=cantidad || posicion_hijo_izquierdo>=cantidad){
+    if (posicion_hijo_derecho>=cantidad && posicion_hijo_izquierdo>=cantidad) return;
+    if (posicion_hijo_derecho>=cantidad && comparar(arreglo,cmp,posicion_padre,posicion_hijo_izquierdo)<0) posicion_maximo=posicion_hijo_izquierdo;
+    if (posicion_hijo_izquierdo>=cantidad && comparar(arreglo,cmp,posicion_padre,posicion_hijo_derecho)<0) posicion_maximo=posicion_hijo_derecho;
+  }
+  else{
+    if (comparar(arreglo,cmp,posicion_padre,posicion_hijo_izquierdo)<0 && comparar(arreglo,cmp,posicion_hijo_izquierdo,posicion_hijo_derecho)>0) posicion_maximo=posicion_hijo_izquierdo;
+    if (comparar(arreglo,cmp,posicion_padre,posicion_hijo_derecho)<0 && comparar(arreglo,cmp,posicion_hijo_derecho,posicion_hijo_izquierdo)>0) posicion_maximo=posicion_hijo_derecho;
+  }
   if (posicion_padre==posicion_maximo) return;
   swap(&arreglo[posicion_padre],&arreglo[posicion_maximo]);
   downheap(arreglo,cantidad,posicion_maximo,cmp);
@@ -124,4 +131,23 @@ heap_t* heap_crear_arr(void* arreglo[],size_t n,cmp_func_t cmp){
   heap->cmp=cmp;
   for (size_t i=0; i<n; i++) heap_encolar(heap,arreglo[i]);
   return heap;
+}
+
+//------------------------------------------------------------------------------
+void heapify(void** arreglo,size_t largo,cmp_func_t cmp){
+  for (size_t i=largo; i>0; i--){
+    int posicion=i-1;
+    size_t padre=(posicion-1)/2;
+    downheap(arreglo,largo,padre,cmp);
+  }
+}
+
+void heap_sort(void* elementos[],size_t cant,cmp_func_t cmp){
+  heapify(elementos,cant,cmp);
+  size_t n=cant;
+  while (n>0){
+    swap(&elementos[0],&elementos[n-1]);
+    n--;
+    downheap(elementos,n,0,cmp);
+  }
 }
