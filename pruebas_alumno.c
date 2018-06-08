@@ -27,12 +27,12 @@ void pruebas_heap_encolar(){
 
 	bool ok = true;
 
-	ok = heap_encolar(heap,valor1);
-	ok = heap_encolar(heap,valor2);
-	ok = heap_encolar(heap,valor3);
-	ok = heap_encolar(heap,valor4);
-	ok = heap_encolar(heap,valor5);
-	ok = heap_encolar(heap,valor6);
+	ok += heap_encolar(heap,valor1);
+	ok += heap_encolar(heap,valor2);
+	ok += heap_encolar(heap,valor3);
+	ok += heap_encolar(heap,valor4);
+	ok += heap_encolar(heap,valor5);
+	ok += heap_encolar(heap,valor6);
 
 	print_test("se encolaron todos los valores correctamente",ok);
 	print_test("cantidad de elementos es 6", heap_cantidad(heap) == 6);
@@ -57,25 +57,25 @@ void pruebas_heap_desencolar(){
 
 	bool ok = true;
 
-	ok = heap_encolar(heap,valor1);
-	ok = heap_encolar(heap,valor2);
-	ok = heap_encolar(heap,valor3);
-	ok = heap_encolar(heap,valor4);
-	ok = heap_encolar(heap,valor5);
-	ok = heap_encolar(heap,valor6);
+	ok += heap_encolar(heap,valor1);
+	ok += heap_encolar(heap,valor2);
+	ok += heap_encolar(heap,valor3);
+	ok += heap_encolar(heap,valor4);
+	ok += heap_encolar(heap,valor5);
+	ok += heap_encolar(heap,valor6);
 
 	print_test("se encolaron todos los valores correctamente",ok);
 	print_test("cantidad de elementos es 6", heap_cantidad(heap) == 6);
 
 	for (int i = 0; i<6; i++){
 		char* tope = heap_ver_max(heap);
-		ok = *(char*)heap_desencolar(heap) == *(char*)tope;
+		ok += *(char*)heap_desencolar(heap) == *(char*)tope;
 	}
 
 	print_test("se desencolaron todos los elementos correctamente",ok);
 	print_test("cantidad de elementos 0", heap_cantidad(heap) == 0);
 	print_test("heap vacio",heap_esta_vacio(heap));
-	
+
 
 	heap_destruir(heap, NULL);
 	print_test("Destruyo el heap", true);
