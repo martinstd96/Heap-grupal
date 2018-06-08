@@ -69,7 +69,7 @@ void pruebas_heap_desencolar(){
 
 	for (int i = 0; i<6; i++){
 		char* tope = heap_ver_max(heap);
-		ok += *(char*)heap_desencolar(heap) == *(char*)tope;
+		ok += strcmp(*(char*)heap_desencolar(heap),*(char*)tope) == 0;
 	}
 
 	print_test("se desencolaron todos los elementos correctamente",ok);
