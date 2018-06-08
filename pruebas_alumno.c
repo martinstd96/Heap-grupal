@@ -15,44 +15,67 @@ void pruebas_heap_vacio(){
 void pruebas_heap_encolar(){
 	heap_t* heap = heap_crear(strcmp);
 
-	char *clave1 = "perro", *valor1 = "guau";
-  char *clave2 = "gato", *valor2 = "miau";
-  char *clave3 = "vaca", *valor3 = "mu";
-  char *clave4 = "chancho", *valor4 = "oing";
-  char *clave5 = "Martin", *valor5 = "peludo";
-  char *clave6 = "Leo", *valor6 = "metalero";
-	/*
-  char *clave7 = "Gian", *valor7 = "corrector";
-  char *clave8 = "Papa", *valor8 = "Francisco";
-  char *clave9 = "Tesla", *valor9 = "autazos";
-  char *clave10 = "cola", *valor10 = "nodo";
-  char *clave11 = "COD", *valor11 = "tiros";
-  char *clave12 = "FIFA", *valor12 = "futbol";
-  char *clave13 = "ATP", *valor13 = "tenis";
-  char *clave14 = "asado", *valor14 = "argentino";
-  char *clave15 = "fernet", *valor15 = "cordobes";
-  char* clave16 = "Lenovo", *valor16 = "Motorola";
-  char *clave17 = "Apple", *valor17 = "IPhone";
-  char *clave18 = "Fiuba", *valor18 = "jodida";
-  char *clave19 = "fisica", *valor19 = "Newton";
-	char *clave20 = "ARM", *valor20 = "microprocesador";
-	*/
+	char* valor1 = "1";
+	char* valor2 = "5";
+	char* valor3 = "2";
+	char* valor4 = "3";
+	char* valor5 = "4";
+	char* valor6 = "6";
 
 	print_test("heap esta vacio", heap_esta_vacio(heap) == 0);
 	print_test("cantidad 0", heap_cantidad(heap) == 0);
 
 	bool ok = true;
 
-	ok = heap_encolar(heap,clave1,valor1);
-	ok = heap_encolar(heap,clave2,valor2);
-	ok = heap_encolar(heap,clave3,valor3);
-	ok = heap_encolar(heap,clave4,valor4);
-	ok = heap_encolar(heap,clave5,valor5);
-	ok = heap_encolar(heap,clave6,valor6);
+	ok = heap_encolar(heap,valor1);
+	ok = heap_encolar(heap,valor2);
+	ok = heap_encolar(heap,valor3);
+	ok = heap_encolar(heap,valor4);
+	ok = heap_encolar(heap,valor5);
+	ok = heap_encolar(heap,valor6);
 
 	print_test("se encolaron todos los valores correctamente",ok);
 	print_test("cantidad de elementos es 6", heap_cantidad(heap) == 6);
 
+
+	heap_destruir(heap, NULL);
+	print_test("Destruyo el heap", true);
+}
+
+void pruebas_heap_desencolar(){
+	heap_t* heap = heap_crear(strcmp);
+
+	char* valor1 = "1";
+	char* valor2 = "5";
+	char* valor3 = "2";
+	char* valor4 = "3";
+	char* valor5 = "4";
+	char* valor6 = "6";
+
+	print_test("heap esta vacio", heap_esta_vacio(heap) == 0);
+	print_test("cantidad 0", heap_cantidad(heap) == 0);
+
+	bool ok = true;
+
+	ok = heap_encolar(heap,valor1);
+	ok = heap_encolar(heap,valor2);
+	ok = heap_encolar(heap,valor3);
+	ok = heap_encolar(heap,valor4);
+	ok = heap_encolar(heap,valor5);
+	ok = heap_encolar(heap,valor6);
+
+	print_test("se encolaron todos los valores correctamente",ok);
+	print_test("cantidad de elementos es 6", heap_cantidad(heap) == 6);
+
+	for (int i = 0; i<6; i++){
+		char* tope = heap_ver_max(heap);
+		ok = *(char*)heap_desencolar(heap) == *(char*)tope;
+	}
+
+	print_test("se desencolaron todos los elementos correctamente",ok);
+	print_test("cantidad de elementos 0", heap_cantidad(heap) == 0);
+	print_test("heap vacio",heap_esta_vacio(heap));
+	
 
 	heap_destruir(heap, NULL);
 	print_test("Destruyo el heap", true);
@@ -65,6 +88,9 @@ void pruebas_heap_alumno() {
 
 	printf("\n~~Heap encolar~~\n\n");
 	pruebas_heap_encolar();
+
+	printf("\n~~Heap desencolar~~\n\n");
+	pruebas_heap_desencolar();
 
 
 }
