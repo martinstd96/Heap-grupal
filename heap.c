@@ -28,10 +28,10 @@ heap_t* heap_crear(cmp_func_t cmp){
   return heap;
 }
 
-void swap(void* x,void* y){
-  void* auxiliar=x;
-  x=y;
-  y=auxiliar;
+void swap(void** x,void** y){
+  void* auxiliar=*x;
+  *x=*y;
+  *y=auxiliar;
 }
 
 bool redimensionar_heap(heap_t* heap,size_t tamanio_nuevo){
@@ -44,7 +44,7 @@ bool redimensionar_heap(heap_t* heap,size_t tamanio_nuevo){
 
 void upheap(void** arreglo,size_t posicion,cmp_func_t cmp){
   if (posicion==0) return;
-  int padre=(posicion-1)/2;
+  size_t padre=(posicion-1)/2;
   if (cmp(arreglo[posicion],arreglo[padre])<0) return;
   swap(&arreglo[posicion],&arreglo[padre]);
   upheap(arreglo,padre,cmp);
@@ -117,30 +117,32 @@ void heap_destruir(heap_t* heap,void destruir_elemento(void* e)){
   free(heap);
 }
 
-heap_t* heap_crear_arr(void* arreglo[],size_t n,cmp_func_t cmp){
-  heap_t* heap=malloc(sizeof(heap_t));
-  if (!heap) return NULL;
-  void** datos=malloc(sizeof(void*)*TAMANIO_INICIAL);
-  if (!datos){
-    free(heap);
-    return NULL;
-  }
-  heap->datos=datos;
-  heap->capacidad=TAMANIO_INICIAL;
-  heap->cantidad=0;
-  heap->cmp=cmp;
-  for (size_t i=0; i<n; i++) heap_encolar(heap,arreglo[i]);
-  return heap;
-}
-
-//------------------------------------------------------------------------------
 void heapify(void** arreglo,size_t largo,cmp_func_t cmp){
   for (size_t i=largo; i>0; i--){
-    int posicion=i-1;
+    size_t posicion=i-1;
     size_t padre=(posicion-1)/2;
     downheap(arreglo,largo,padre,cmp);
   }
 }
+
+heap_t* heap_crear_arr(void* arreglo[],size_t n,cmp_func_t cmp){
+  heap_t* heap=malloc(sizeof(heap_t));
+  if (!heap) return NULL;
+  void** datos_copiados=malloc(sizeof(void*)*TAMANIO_INICIAL);
+  if (!datos_copiados){
+    free(heap);
+    return NULL;
+  }
+  for (int i=0; i<n; i++) datos_copiados[i]=arreglo[i];
+  heapify(datos_copiados,n,cmp);
+  heap->datos=datos_copiados;
+  heap->capacidad=TAMANIO_INICIAL;
+  heap->cantidad=n;
+  heap->cmp=cmp;
+  return heap;
+}
+
+//------------------------------------------------------------------------------
 
 void heap_sort(void* elementos[],size_t cant,cmp_func_t cmp){
   heapify(elementos,cant,cmp);
