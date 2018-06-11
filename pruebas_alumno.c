@@ -6,6 +6,7 @@
 
 #define CANTIDAD_PRUEBAS_VOLUMEN 5000
 #define CANTIDAD_PRUEBAS_ARR 9
+#define CANTIDAD_PRUEBAS_HEAP_SORT 15
 
 int cmp_cadenas(const void* a, const void* b){
   return strcmp(a, b);
@@ -168,13 +169,13 @@ void pruebas_heap_volumen(){
 
 void pruebas_heap_sort(){
   printf("INICIO DE PRUEBAS DE HEAP SORT\n");
-  int arr[15]={0,33,10,9,56,4,20,36,47,-1,90,73,-31,15,88};
-  int* _arreglo=malloc(sizeof(int) * 15);
-  for (int i=0; i<15; i++)_arreglo[i]=arr[i];
-  void* arreglo[CANTIDAD_PRUEBAS_ARR];
-  for (int i=0; i<15; i++) arreglo[i]=_arreglo+i;
-  heap_sort(arreglo,15,_cmp_numeros);
-  for (int i=0; i<15; i++) printf("  %d\n",*(int*)arreglo[i]);
+  int arr[CANTIDAD_PRUEBAS_HEAP_SORT]={0,33,10,9,56,4,20,36,47,-1,90,73,-31,15,88};
+  int* _arreglo=malloc(sizeof(int) * CANTIDAD_PRUEBAS_HEAP_SORT);
+  for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++)_arreglo[i]=arr[i];
+  void* arreglo[CANTIDAD_PRUEBAS_HEAP_SORT];
+  for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++) arreglo[i]=_arreglo+i;
+  heap_sort(arreglo,CANTIDAD_PRUEBAS_HEAP_SORT,_cmp_numeros);
+  for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++) printf(" %d\n",*(int*)arreglo[i]);
   free(_arreglo);
 }
 
