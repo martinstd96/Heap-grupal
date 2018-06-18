@@ -174,8 +174,27 @@ void pruebas_heap_sort(){
   for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++)_arreglo[i]=arr[i];
   void* arreglo[CANTIDAD_PRUEBAS_HEAP_SORT];
   for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++) arreglo[i]=_arreglo+i;
+  
   heap_sort(arreglo,CANTIDAD_PRUEBAS_HEAP_SORT,_cmp_numeros);
-  for (int i=0; i<CANTIDAD_PRUEBAS_HEAP_SORT; i++) printf(" %d\n",*(int*)arreglo[i]);
+
+  bool ok=true;
+  ok = *(int*)arreglo[0]==arr[12];
+  ok = *(int*)arreglo[1]==arr[9];
+  ok = *(int*)arreglo[2]==arr[0];
+  ok = *(int*)arreglo[3]==arr[5];
+  ok = *(int*)arreglo[4]==arr[3];
+  ok = *(int*)arreglo[5]==arr[2];
+  ok = *(int*)arreglo[6]==arr[13];
+  ok = *(int*)arreglo[7]==arr[6];
+  ok = *(int*)arreglo[8]==arr[1];
+  ok = *(int*)arreglo[9]==arr[7];
+  ok = *(int*)arreglo[10]==arr[8];
+  ok = *(int*)arreglo[11]==arr[4];
+  ok = *(int*)arreglo[12]==arr[11];
+  ok = *(int*)arreglo[13]==arr[14];
+  ok = *(int*)arreglo[14]==arr[10];
+  print_test("el arreglo esta ordenado", ok);
+
   free(_arreglo);
 }
 
